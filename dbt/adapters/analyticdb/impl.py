@@ -75,7 +75,7 @@ class MySQLAdapter(SQLAdapter):
             if len(row) != 4:
                 raise dbt.exceptions.DbtRuntimeError(
                     "Invalid value from "
-                    f'"mysql__list_relations_without_caching({kwargs})", '
+                    f'"analyticdb__list_relations_without_caching({kwargs})", '
                     f"got {len(row)} values, expected 4"
                 )
             _, name, _schema, relation_type = row

@@ -2,7 +2,7 @@ default:
   target: dev
   outputs:
     dev:
-      type: mysql
+      type: analyticdb
       server: [server/host]
       port: [port]  # optional
       database: [schema] # optional, should be same as schema
@@ -11,7 +11,7 @@ default:
       password: [password]
       driver: MySQL ODBC 8.0 ANSI Driver
     prod:
-      type: mysql
+      type: analyticdb
       server: [server/host]
       port: [port]  # optional
       database: [schema] # optional, should be same as schema

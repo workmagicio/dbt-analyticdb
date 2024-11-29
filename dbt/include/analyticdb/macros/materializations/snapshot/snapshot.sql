@@ -1,5 +1,5 @@
 
-{% macro mysql__snapshot_string_as_time(timestamp) -%}
+{% macro analyticdb__snapshot_string_as_time(timestamp) -%}
     {%- set result = "str_to_date('" ~ timestamp ~ "', '%Y-%m-%d %T')" -%}
     {{ return(result) }}
 {%- endmacro %}
@@ -74,14 +74,14 @@
       {% endfor %}
 
       -- MySQL does not support the MERGE statement, so we need to use seperate UPDATE + INSERT statements instead
-      {% set final_sql_update = mysql__snapshot_merge_sql_update(
+      {% set final_sql_update = analyticdb__snapshot_merge_sql_update(
             target = target_relation,
             source = staging_table,
             insert_cols = quoted_source_columns
          )
       %}
 
-      {% set final_sql_insert = mysql__snapshot_merge_sql_insert(
+      {% set final_sql_insert = analyticdb__snapshot_merge_sql_insert(
             target = target_relation,
             source = staging_table,
             insert_cols = quoted_source_columns

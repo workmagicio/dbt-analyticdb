@@ -1,5 +1,5 @@
 
-{% macro mysql__get_catalog(information_schema, schemas) -%}
+{% macro analyticdb__get_catalog(information_schema, schemas) -%}
     {%- call statement('catalog', fetch_result=True) -%}
     with tables as (
 
