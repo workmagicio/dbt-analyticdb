@@ -8,9 +8,9 @@ import dbt.exceptions
 
 from dbt.adapters.base.impl import catch_as_completed
 from dbt.adapters.sql import SQLAdapter
-from dbt.adapters.mysql import MySQLConnectionManager
-from dbt.adapters.mysql import MySQLRelation
-from dbt.adapters.mysql import MySQLColumn
+from dbt.adapters.analyticdb import MySQLConnectionManager
+from dbt.adapters.analyticdb import MySQLRelation
+from dbt.adapters.analyticdb import MySQLColumn
 from dbt.adapters.base import BaseRelation
 from dbt.contracts.graph.nodes import ConstraintType
 from dbt.adapters.base.impl import ConstraintSupport

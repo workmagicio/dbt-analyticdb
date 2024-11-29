@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 import dbt.flags as flags
-from dbt.adapters.mysql import MySQLAdapter
+from dbt.adapters.analyticdb import MySQLAdapter
 
 from .utils import config_from_parts_or_dicts, mock_connection
 
