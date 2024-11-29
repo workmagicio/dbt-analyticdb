@@ -1,4 +1,6 @@
-# dbt-mysql
+# dbt-analyticdb
+
+Fork from [dbt-mysql](https://github.com/dbeatty10/dbt-mysql)
 
 [![Tests and Code Checks](https://github.com/dbeatty10/dbt-mysql/actions/workflows/main.yml/badge.svg)](https://github.com/dbeatty10/dbt-mysql/actions/workflows/main.yml)
 [![Integration Tests Badge](https://github.com/dbeatty10/dbt-mysql/actions/workflows/integration.yml/badge.svg)](https://github.com/dbeatty10/dbt-mysql/actions/workflows/integration.yml)

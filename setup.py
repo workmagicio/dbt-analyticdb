@@ -50,10 +50,10 @@ def _get_dbt_core_version():
     return f"{minor}{pre}"
 
 
-package_name = "dbt-mysql"
+package_name = "dbt-analyticdb"
 package_version = "1.7.0a1"
 dbt_core_version = _get_dbt_core_version()
-description = """The MySQL adapter plugin for dbt"""
+description = """The analyticdb adapter plugin for dbt"""
 
 setup(
     name=package_name,
