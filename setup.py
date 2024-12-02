@@ -30,7 +30,7 @@ with open(os.path.join(this_directory, "README.md"), encoding="utf-8") as f:
 
 # get this package's version from dbt/adapters/<name>/__version__.py
 def _get_plugin_version_dict():
-    _version_path = os.path.join(this_directory, "dbt", "adapters", "mysql", "__version__.py")
+    _version_path = os.path.join(this_directory, "dbt", "adapters", "analyticdb", "__version__.py")
     _semver = r"""(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)"""
     _pre = r"""((?P<prekind>a|b|rc)(?P<pre>\d+))?"""
     _nightly = r"""(\.(?P<nightly>[a-z0-9]+)?)?"""
@@ -51,7 +51,7 @@ def _get_dbt_core_version():
 
 
 package_name = "dbt-analyticdb"
-package_version = "1.7.0a1"
+package_version = "0.0.1"
 dbt_core_version = _get_dbt_core_version()
 description = """The analyticdb adapter plugin for dbt"""
 
