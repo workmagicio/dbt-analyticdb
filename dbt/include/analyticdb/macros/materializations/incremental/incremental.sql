@@ -1,5 +1,5 @@
 
-{% materialization incremental, adapter='mysql' %}
+{% materialization incremental, adapter='analyticdb' %}
 
   {% set unique_key = config.get('unique_key') %}
 

@@ -4,7 +4,7 @@
     {{ return(result) }}
 {%- endmacro %}
 
-{% materialization snapshot, adapter='mysql' %}
+{% materialization snapshot, adapter='analyticdb' %}
   {%- set config = model['config'] -%}
 
   {%- set target_table = model.get('alias', model.get('name')) -%}
