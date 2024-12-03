@@ -51,8 +51,8 @@ def _get_dbt_core_version():
 
 
 package_name = "dbt-analyticdb"
-package_version = "0.0.1"
-dbt_core_version = _get_dbt_core_version()
+package_version = "0.0.3"
+dbt_core_version = "1.0.0" # _get_dbt_core_version()
 description = """The analyticdb adapter plugin for dbt"""
 
 setup(

@@ -51,7 +51,7 @@ class MySQLCredentials(Credentials):
 
     @property
     def type(self):
-        return "mysql"
+        return "analyticdb"
 
     @property
     def unique_field(self):
@@ -72,7 +72,7 @@ class MySQLCredentials(Credentials):
 
 
 class MySQLConnectionManager(SQLConnectionManager):
-    TYPE = "mysql"
+    TYPE = "analyticdb"
 
     @classmethod
     def open(cls, connection):
