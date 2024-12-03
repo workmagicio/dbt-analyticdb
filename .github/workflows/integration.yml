@@ -91,19 +91,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           filters: |
-            mysql:
-              - 'dbt/include/mysql/**'
-              - 'dbt/adapters/mysql/**'
-              - 'tests/**'
-              - 'dev-requirements.txt'
-            mysql5:
-              - 'dbt/include/mysql5/**'
-              - 'dbt/adapters/mysql5/**'
-              - 'tests/**'
-              - 'dev-requirements.txt'
-            mariadb:
-              - 'dbt/include/mariadb/**'
-              - 'dbt/adapters/mariadb/**'
+            analyticdb:
+              - 'dbt/include/analyticdb/**'
+              - 'dbt/adapters/analyticdb/**'
               - 'tests/**'
               - 'dev-requirements.txt'
 

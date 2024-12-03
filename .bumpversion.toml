@@ -38,13 +38,7 @@ first_value = "1"
 filename = "setup.py"
 
 [[tool.bumpversion.files]]
-filename = "dbt/adapters/mysql/__version__.py"
-
-[[tool.bumpversion.files]]
-filename = "dbt/adapters/mysql5/__version__.py"
-
-[[tool.bumpversion.files]]
-filename = "dbt/adapters/mariadb/__version__.py"
+filename = "dbt/adapters/analyticdb/__version__.py"
 
 [[tool.bumpversion.files]]
 filename = "dev-requirements.txt"

@@ -1,11 +1,9 @@
 module.exports = ({ context }) => {
   const defaultPythonVersion = "3.8";
   const supportedPythonVersions = ["3.8", "3.9"];
-  const supportedAdapters = ["mysql", "mysql5", "mariadb"];
+  const supportedAdapters = ["analyticdb"];
   const adapterImages = {
-    mysql: "mysql:8.0",
-    mysql5: "mysql:5.7",
-    mariadb: "mariadb:10.5",
+    analyticdb: "mysql:8.0",
   };
 
   // if PR, generate matrix based on files changed and PR labels

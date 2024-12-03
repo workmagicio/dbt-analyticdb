@@ -7,7 +7,7 @@ pytest_plugins = ["dbt.tests.fixtures.project"]
 
 
 def pytest_addoption(parser):
-    parser.addoption("--profile", action="store", default="mysql", type=str)
+    parser.addoption("--profile", action="store", default="analyticdb", type=str)
 
 
 # Using @pytest.mark.skip_profile uses the 'skip_by_profile_type'
@@ -23,44 +23,18 @@ def pytest_configure(config):
 @pytest.fixture(scope="session")
 def dbt_profile_target(request):
     profile_type = request.config.getoption("--profile")
-    if profile_type == "mysql":
-        target = mysql_target()
-    elif profile_type == "mysql5":
-        target = mysql5_target()
-    elif profile_type == "mariadb":
-        target = mariadb_target()
+    if profile_type == "analyticdb":
+        target = analyticdb_target()
     else:
         raise ValueError(f"Invalid profile type '{profile_type}'")
     return target
 
 
 # dbt will supply a unique schema per test, so we do not specify 'schema' here
-def mysql_target():
+def analyticdb_target():
     return {
-        "type": "mysql",
+        "type": "analyticdb",
         "port": int(os.getenv("DBT_MYSQL_80_PORT", "3306")),
-        "server": os.getenv("DBT_MYSQL_SERVER_NAME", "localhost"),
-        "username": os.getenv("DBT_MYSQL_USERNAME", "root"),
-        "password": os.getenv("DBT_MYSQL_PASSWORD", "dbt"),
-    }
-
-
-# dbt will supply a unique schema per test, so we do not specify 'schema' here
-def mysql5_target():
-    return {
-        "type": "mysql5",
-        "port": int(os.getenv("DBT_MYSQL_57_PORT", "3306")),
-        "server": os.getenv("DBT_MYSQL_SERVER_NAME", "localhost"),
-        "username": os.getenv("DBT_MYSQL_USERNAME", "root"),
-        "password": os.getenv("DBT_MYSQL_PASSWORD", "dbt"),
-    }
-
-
-# dbt will supply a unique schema per test, so we do not specify 'schema' here
-def mariadb_target():
-    return {
-        "type": "mariadb",
-        "port": int(os.getenv("DBT_MARIADB_105_PORT", "3306")),
         "server": os.getenv("DBT_MYSQL_SERVER_NAME", "localhost"),
         "username": os.getenv("DBT_MYSQL_USERNAME", "root"),
         "password": os.getenv("DBT_MYSQL_PASSWORD", "dbt"),
