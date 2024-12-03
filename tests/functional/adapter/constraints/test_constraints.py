@@ -37,7 +37,7 @@ from tests.functional.adapter.constraints.fixtures import (
 )
 
 
-class MySQLColumnEqualSetup:
+class AnalyticDBColumnEqualSetup:
     @pytest.fixture
     def int_type(self):
         return "INTEGER"
@@ -58,17 +58,17 @@ class MySQLColumnEqualSetup:
 
 
 class TestMySQLTableConstraintsColumnsEqual(
-    MySQLColumnEqualSetup, BaseTableConstraintsColumnsEqual
+    AnalyticDBColumnEqualSetup, BaseTableConstraintsColumnsEqual
 ):
     pass
 
 
-class TestMySQLViewConstraintsColumnsEqual(MySQLColumnEqualSetup, BaseViewConstraintsColumnsEqual):
+class TestMySQLViewConstraintsColumnsEqual(AnalyticDBColumnEqualSetup, BaseViewConstraintsColumnsEqual):
     pass
 
 
 class TestMySQLIncrementalConstraintsColumnsEqual(
-    MySQLColumnEqualSetup, BaseIncrementalConstraintsColumnsEqual
+    AnalyticDBColumnEqualSetup, BaseIncrementalConstraintsColumnsEqual
 ):
     pass
 

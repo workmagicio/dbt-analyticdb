@@ -1,12 +1,12 @@
 import unittest
 from unittest import mock
 import dbt.flags as flags
-from dbt.adapters.analyticdb import MySQLAdapter
+from dbt.adapters.analyticdb import AnalyticDBAdapter
 
 from .utils import config_from_parts_or_dicts, mock_connection
 
 
-class TestMySQLAdapter(unittest.TestCase):
+class TestAnalyticDBAdapter(unittest.TestCase):
     def setUp(self):
         flags.STRICT_MODE = True
 
@@ -42,7 +42,7 @@ class TestMySQLAdapter(unittest.TestCase):
     @property
     def adapter(self):
         if self._adapter is None:
-            self._adapter = MySQLAdapter(self.config)
+            self._adapter = AnalyticDBAdapter(self.config)
         return self._adapter
 
     @mock.patch("dbt.adapters.mysql.connections.mysql.connector")

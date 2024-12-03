@@ -1,27 +1,27 @@
 from dataclasses import dataclass, field
 
 from dbt.adapters.base.relation import BaseRelation, Policy
-from dbt.exceptions import DbtRuntimeError
+from dbt_common.exceptions import DbtRuntimeError
 
 
 @dataclass
-class MySQLQuotePolicy(Policy):
+class AnalyticDBQuotePolicy(Policy):
     database: bool = False
     schema: bool = True
     identifier: bool = True
 
 
 @dataclass
-class MySQLIncludePolicy(Policy):
+class AnalyticDBIncludePolicy(Policy):
     database: bool = False
     schema: bool = True
     identifier: bool = True
 
 
 @dataclass(frozen=True, eq=False, repr=False)
-class MySQLRelation(BaseRelation):
-    quote_policy: MySQLQuotePolicy = field(default_factory=lambda: MySQLQuotePolicy())
-    include_policy: MySQLIncludePolicy = field(default_factory=lambda: MySQLIncludePolicy())
+class AnalyticDBRelation(BaseRelation):
+    quote_policy: AnalyticDBQuotePolicy = field(default_factory=lambda: AnalyticDBQuotePolicy())
+    include_policy: AnalyticDBIncludePolicy = field(default_factory=lambda: AnalyticDBIncludePolicy())
     quote_character: str = "`"
 
     def __post_init__(self):

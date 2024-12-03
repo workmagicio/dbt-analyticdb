@@ -72,7 +72,7 @@
 
 {% macro analyticdb__check_schema_exists(database, schema) -%}
     {# no-op #}
-    {# see MySQLAdapter.check_schema_exists() #}
+    {# see AnalyticDBAdapter.check_schema_exists() #}
 {% endmacro %}
 
 {% macro analyticdb__get_columns_in_relation(relation) -%}

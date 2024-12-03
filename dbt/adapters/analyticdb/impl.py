@@ -4,31 +4,31 @@ from typing import Optional, List, Dict, Any, Iterable, Tuple
 import agate
 
 import dbt
-import dbt.exceptions
+import dbt_common.exceptions
 
 from dbt.adapters.base.impl import catch_as_completed
 from dbt.adapters.sql import SQLAdapter
-from dbt.adapters.analyticdb import MySQLConnectionManager
-from dbt.adapters.analyticdb import MySQLRelation
-from dbt.adapters.analyticdb import MySQLColumn
+from dbt.adapters.analyticdb import AnalyticDBConnectionManager
+from dbt.adapters.analyticdb import AnalyticDBRelation
+from dbt.adapters.analyticdb import AnalyticDBColumn
 from dbt.adapters.base import BaseRelation
 from dbt.contracts.graph.nodes import ConstraintType
 from dbt.adapters.base.impl import ConstraintSupport
 from dbt.contracts.graph.manifest import Manifest
-from dbt.clients.agate_helper import DEFAULT_TYPE_TESTER
-from dbt.events import AdapterLogger
-from dbt.utils import executor
+from dbt_common.clients.agate_helper import DEFAULT_TYPE_TESTER
+from dbt.adapters.events.logging import AdapterLogger
+from dbt_common.utils import executor
 
-logger = AdapterLogger("mysql")
+logger = AdapterLogger("analyticdb")
 
 LIST_SCHEMAS_MACRO_NAME = "list_schemas"
 LIST_RELATIONS_MACRO_NAME = "list_relations_without_caching"
 
 
-class MySQLAdapter(SQLAdapter):
-    Relation = MySQLRelation
-    Column = MySQLColumn
-    ConnectionManager = MySQLConnectionManager
+class AnalyticDBAdapter(SQLAdapter):
+    Relation = AnalyticDBRelation
+    Column = AnalyticDBColumn
+    ConnectionManager = AnalyticDBConnectionManager
 
     CONSTRAINT_SUPPORT = {
         ConstraintType.check: ConstraintSupport.ENFORCED,
@@ -56,12 +56,12 @@ class MySQLAdapter(SQLAdapter):
         return "`{}`".format(identifier)
 
     def list_relations_without_caching(  # type: ignore[override]
-        self, schema_relation: MySQLRelation  # type: ignore[override]
-    ) -> List[MySQLRelation]:
+        self, schema_relation: AnalyticDBRelation  # type: ignore[override]
+    ) -> List[AnalyticDBRelation]:
         kwargs = {"schema_relation": schema_relation}
         try:
             results = self.execute_macro(LIST_RELATIONS_MACRO_NAME, kwargs=kwargs)
-        except dbt.exceptions.DbtRuntimeError as e:
+        except dbt_common.exceptions.DbtRuntimeError as e:
             errmsg = getattr(e, "msg", "")
             if f"MySQL database '{schema_relation}' not found" in errmsg:
                 return []
@@ -73,7 +73,7 @@ class MySQLAdapter(SQLAdapter):
         relations = []
         for row in results:
             if len(row) != 4:
-                raise dbt.exceptions.DbtRuntimeError(
+                raise dbt_common.exceptions.DbtRuntimeError(
                     "Invalid value from "
                     f'"analyticdb__list_relations_without_caching({kwargs})", '
                     f"got {len(row)} values, expected 4"
@@ -84,15 +84,15 @@ class MySQLAdapter(SQLAdapter):
 
         return relations
 
-    def get_columns_in_relation(self, relation: MySQLRelation) -> List[MySQLColumn]:
+    def get_columns_in_relation(self, relation: AnalyticDBRelation) -> List[AnalyticDBColumn]:
         rows: List[agate.Row] = super().get_columns_in_relation(relation)
         return self.parse_show_columns(relation, rows)
 
-    def _get_columns_for_catalog(self, relation: MySQLRelation) -> Iterable[Dict[str, Any]]:
+    def _get_columns_for_catalog(self, relation: AnalyticDBRelation) -> Iterable[Dict[str, Any]]:
         columns = self.get_columns_in_relation(relation)
 
         for column in columns:
-            # convert MySQLColumns into catalog dicts
+            # convert AnalyticDBColumns into catalog dicts
             as_dict = asdict(column)
             as_dict["column_name"] = as_dict.pop("column", None)
             as_dict["column_type"] = as_dict.pop("dtype")
@@ -108,10 +108,10 @@ class MySQLAdapter(SQLAdapter):
         return super().get_relation(database, schema, identifier)
 
     def parse_show_columns(
-        self, relation: MySQLRelation, raw_rows: List[agate.Row]
-    ) -> List[MySQLColumn]:
+        self, relation: AnalyticDBRelation, raw_rows: List[agate.Row]
+    ) -> List[AnalyticDBColumn]:
         return [
-            MySQLColumn(
+            AnalyticDBColumn(
                 table_database=None,
                 table_schema=relation.schema,
                 table_name=relation.name,
@@ -129,7 +129,7 @@ class MySQLAdapter(SQLAdapter):
         schema_map = self._get_catalog_schemas(manifest)
 
         if len(schema_map) > 1:
-            raise dbt.exceptions.CompilationError(
+            raise dbt_common.exceptions.CompilationError(
                 f"Expected only one database in get_catalog, found " f"{list(schema_map)}"
             )
 
@@ -157,7 +157,7 @@ class MySQLAdapter(SQLAdapter):
         manifest,
     ) -> agate.Table:
         if len(schemas) != 1:
-            raise dbt.exceptions.CompilationError(
+            raise dbt_common.exceptions.CompilationError(
                 f"Expected only one schema in mysql _get_one_catalog, found " f"{schemas}"
             )
 
@@ -207,14 +207,14 @@ class MySQLAdapter(SQLAdapter):
         elif location == "prepend":
             return f"concat({value}, '{add_to}')"
         else:
-            raise dbt.exceptions.DbtRuntimeError(
+            raise dbt_common.exceptions.DbtRuntimeError(
                 f'Got an unexpected location value of "{location}"'
             )
 
     def get_rows_different_sql(
         self,
-        relation_a: MySQLRelation,  # type: ignore[override]
-        relation_b: MySQLRelation,  # type: ignore[override]
+        relation_a: AnalyticDBRelation,  # type: ignore[override]
+        relation_b: AnalyticDBRelation,  # type: ignore[override]
         column_names: Optional[List[str]] = None,
         except_operator: str = "",  # Required to match BaseRelation.get_rows_different_sql()
     ) -> str:

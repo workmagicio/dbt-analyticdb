@@ -9,7 +9,7 @@ dev: ## Installs adapter in develop mode along with development dependencies
 dev-uninstall: ## Uninstalls all packages while maintaining the virtual environment
                ## Useful when updating versions, or if you accidentally installed into the system interpreter
 	pip freeze | grep -v "^-e" | cut -d "@" -f1 | xargs pip uninstall -y
-	pip uninstall -y dbt-mysql
+	pip uninstall -y dbt-analyticdb
 
 .PHONY: mypy
 mypy: ## Runs mypy against staged changes for static type checking.
@@ -53,9 +53,7 @@ test: ## Runs unit tests with py38 and code checks against staged changes.
 .PHONY: integration
 integration: ## Runs mysql integration tests with py38.
 	@\
-	tox -e py38-mysql --; \
-	tox -e py38-mysql5 --; \
-	tox -e py38-mariadb --;
+	tox -e py38-analyticdb --;
 
 .PHONY: clean
 	@echo "cleaning repo"

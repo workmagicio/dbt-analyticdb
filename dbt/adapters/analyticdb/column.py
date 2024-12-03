@@ -3,11 +3,11 @@ from typing import TypeVar, Optional, Dict, Any
 
 from dbt.adapters.base.column import Column
 
-Self = TypeVar("Self", bound="MySQLColumn")
+Self = TypeVar("Self", bound="AnalyticDBColumn")
 
 
 @dataclass
-class MySQLColumn(Column):
+class AnalyticDBColumn(Column):
     TYPE_LABELS = {
         "STRING": "TEXT",
         "VAR_STRING": "TEXT",
@@ -29,4 +29,4 @@ class MySQLColumn(Column):
         return "`{}`".format(self.column)
 
     def __repr__(self) -> str:
-        return "<MySQLColumn {} ({})>".format(self.name, self.data_type)
+        return "<AnalyticDBColumn {} ({})>".format(self.name, self.data_type)
